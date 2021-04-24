@@ -71,10 +71,9 @@ app.post('/sign', async (req, res, next) => {
 		let sql, values, connect, token
 		let { userid, appkey } = req.body
 		sql = 'SELECT * FROM api WHERE userid=? AND domain=? AND appkey=?'
-		values = [userid, '127.0.0.1:3001', appkey]
+		values = [userid, req.headers.origin, appkey]
 		connect = await pool.getConnection()
 		let [rs] = await connect.query(sql, values)
-		console.log(rs)
 		connect.release()
 		if(rs[0]) {
 			token = jwt.sign({ id: userid }, process.env.JWT_KEY, { expiresIn: '10m' })
@@ -96,6 +95,16 @@ app.post('/sign', async (req, res, next) => {
 	}
 })
 
+app.get('/data', (req, res, next) => {
+	let token = req.headers.authorization
+	let verify = jwt.verify(token, process.env.JWT_KEY)
+	if(verify) {
+		res.status(200).json({ code: 200, result: '응답' })
+	}
+	else {
+		res.status(401).json({ code: 401, msg: 'Token 불일치' })
+	}
+})
 
 /************* Router ***************/
 app.use((req, res, next) => {

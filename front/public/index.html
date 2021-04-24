@@ -15,8 +15,9 @@
 				let userid = 'booldook2'
 				let appkey = '823ac5d4-0bad-4c8f-b5eb-144b1119642b'
 				let r = await axios.post('http://127.0.0.1:3000/sign', { userid, appkey })
-				var token = r.data.token;
-				let { data } = await axios.get('http://127.0.0.1:3000/data')
+				let token = r.data.token;
+				let headers = { authorization: token }
+				let { data } = await axios.get('http://127.0.0.1:3000/data', { headers })
 				console.log(data)
 			}
 			catch(err) {
