@@ -98,6 +98,7 @@ app.post('/sign', async (req, res, next) => {
 app.get('/data', (req, res, next) => {
 	let token = req.headers.authorization
 	let verify = jwt.verify(token, process.env.JWT_KEY)
+	// 만약에 token이 만료되었으면 token을 재생성해서 보내준다.
 	if(verify) {
 		// 실제 보낼정보 쿼리
 		res.status(200).json({ code: 200, result: '응답' })

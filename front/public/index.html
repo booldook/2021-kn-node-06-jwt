@@ -12,6 +12,7 @@
 	<script>
 		async function getToken() {
 			try {
+				// 토큰을 요청하는 부분은 Front Server의 session/cookie를 이용해서 실행할 수 있다.
 				let userid = 'booldook2'
 				let appkey = '823ac5d4-0bad-4c8f-b5eb-144b1119642b'
 				let r = await axios.post('http://127.0.0.1:3000/sign', { userid, appkey })
