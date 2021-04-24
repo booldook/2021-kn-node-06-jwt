@@ -99,6 +99,7 @@ app.get('/data', (req, res, next) => {
 	let token = req.headers.authorization
 	let verify = jwt.verify(token, process.env.JWT_KEY)
 	if(verify) {
+		// 실제 보낼정보 쿼리
 		res.status(200).json({ code: 200, result: '응답' })
 	}
 	else {
