@@ -1,0 +1,11 @@
+doctype html 
+html(lang="ko")
+	head 
+		meta(charset="utf-8")
+		title API Token 발행/확인
+	body 
+		form(name="tokenForm" method="post" action="/sign")
+			input(type="text" name="userid" placeholder="아이디")
+			input(type="text" name="domain" placeholder="도메인")
+			input(type="text" name="appkey" placeholder="appkey")
+			button API Token 발행/확인
