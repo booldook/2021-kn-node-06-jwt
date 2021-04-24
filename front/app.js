@@ -20,7 +20,7 @@ app.use(express.json())	// post -> req.body
 app.use(express.urlencoded({ extended: false }))
 
 /************* Router ***************/
-app.use('/', express.static(paht.join(__dirname, '/public')))
+app.use('/', express.static(path.join(__dirname, '/public')))
 
 
 

@@ -6,6 +6,8 @@ const createError = require('http-errors')
 const jwt = require('jsonwebtoken')
 const { pool } = require('./modules/mysql-conn')
 const { v4 } = require('uuid')
+const dns = require('dns')
+const cors = require('cors')
 
 
 /************* Init ***************/
@@ -18,6 +20,7 @@ app.locals.pretty = true
 
 
 /************* Middleware ***************/
+app.use(cors())
 app.use(express.json())	// post -> req.body
 app.use(express.urlencoded({ extended: false }))
 
@@ -66,11 +69,12 @@ app.post('/create', async (req, res, next) => {
 app.post('/sign', async (req, res, next) => {
 	try {
 		let sql, values, connect, token
-		let { userid, domain, appkey } = req.body
+		let { userid, appkey } = req.body
 		sql = 'SELECT * FROM api WHERE userid=? AND domain=? AND appkey=?'
-		values = [userid, domain, appkey]
+		values = [userid, '127.0.0.1:3001', appkey]
 		connect = await pool.getConnection()
 		let [rs] = await connect.query(sql, values)
+		console.log(rs)
 		connect.release()
 		if(rs[0]) {
 			token = jwt.sign({ id: userid }, process.env.JWT_KEY, { expiresIn: '10m' })
